@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consentext AI Gateway Prototype</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-orb page-orb-left" aria-hidden="true"></div>
+  <div class="page-orb page-orb-right" aria-hidden="true"></div>
+  <div class="toast hidden" id="actionToast" aria-live="polite"></div>
+  <div class="shell">
+    <div class="session-banner hidden" id="sessionBanner" aria-live="polite">
+      <span id="sessionBannerText"></span>
+      <button class="secondary-btn banner-btn" id="dismissBannerButton" type="button">Dismiss</button>
+    </div>
+    <div class="context-bar" id="contextBar" aria-label="Current walkthrough context">
+      <div class="context-chip" id="contextTask"></div>
+      <div class="context-chip" id="contextLane"></div>
+      <div class="context-chip" id="contextStep"></div>
+      <div class="context-chip" id="contextScene"></div>
+      <button class="secondary-btn context-action" id="reviewModeButton" type="button">Review mode off</button>
+      <button class="secondary-btn context-action" id="contextRecommendedButton" type="button">Open recommended lane</button>
+      <button class="secondary-btn context-action" id="contextSceneButton" type="button">Return to active scene</button>
+    </div>
+    <p class="context-guidance" id="contextGuidance"></p>
+    <div class="presenter-tools">
+      <button class="secondary-btn" id="togglePresenterToolsButton" type="button" aria-expanded="false" aria-controls="presenterToolbar">Presenter tools</button>
+      <div class="presenter-toolbar hidden" id="presenterToolbar">
+        <button class="secondary-btn" id="toggleHelpButton" type="button" aria-expanded="false" aria-controls="helpPanel">Presenter help</button>
+        <button class="secondary-btn" id="toggleNotesButton" type="button" aria-expanded="false" aria-controls="notesPanel">Speaker notes</button>
+        <button class="secondary-btn" id="toggleScriptButton" type="button" aria-expanded="false" aria-controls="scriptPanel">Demo script</button>
+        <a class="secondary-btn toolbar-link" href="walkthrough.html">Walkthrough page</a>
+      </div>
+    </div>
+    <section class="scene-bar" aria-label="Demo scenes">
+      <p class="scene-label">Demo scenes</p>
+      <div class="scene-actions" id="sceneActions"></div>
+    </section>
+    <aside class="help-panel hidden" id="helpPanel" aria-label="Presenter help">
+      <div class="help-panel-head">
+        <div>
+          <p class="eyebrow">Presenter help</p>
+          <h3>Keyboard shortcuts</h3>
+        </div>
+        <button class="secondary-btn banner-btn" id="closeHelpButton" type="button">Close</button>
+      </div>
+      <div class="help-grid">
+        <div class="help-item">
+          <strong>1-4</strong>
+          <span>Switch lanes in board order</span>
+        </div>
+        <div class="help-item">
+          <strong>R</strong>
+          <span>Open boundary review</span>
+        </div>
+        <div class="help-item">
+          <strong>G</strong>
+          <span>Run or jump to result flow</span>
+        </div>
+        <div class="help-item">
+          <strong>C</strong>
+          <span>Open comparison view</span>
+        </div>
+        <div class="help-item">
+          <strong>K</strong>
+          <span>Open walkthrough checklist</span>
+        </div>
+        <div class="help-item">
+          <strong>N</strong>
+          <span>Toggle speaker notes</span>
+        </div>
+        <div class="help-item">
+          <strong>D</strong>
+          <span>Toggle demo script</span>
+        </div>
+        <div class="help-item">
+          <strong>M</strong>
+          <span>Open recommended lane</span>
+        </div>
+        <div class="help-item">
+          <strong>S</strong>
+          <span>Return to active scene</span>
+        </div>
+        <div class="help-item">
+          <strong>Esc</strong>
+          <span>Close open presenter panels</span>
+        </div>
+        <div class="help-item">
+          <strong>L</strong>
+          <span>Copy share link</span>
+        </div>
+        <div class="help-item">
+          <strong>Y</strong>
+          <span>Copy summary</span>
+        </div>
+        <div class="help-item">
+          <strong>?</strong>
+          <span>Toggle this help panel</span>
+        </div>
+      </div>
+    </aside>
+    <aside class="notes-panel hidden" id="notesPanel" aria-label="Speaker notes">
+      <div class="help-panel-head">
+        <div>
+          <p class="eyebrow">Speaker notes</p>
+          <h3 id="notesTitle"></h3>
+        </div>
+        <button class="secondary-btn banner-btn" id="closeNotesButton" type="button">Close</button>
+      </div>
+      <p class="notes-summary" id="notesSummary"></p>
+      <ul class="notes-list" id="notesList"></ul>
+    </aside>
+    <aside class="script-panel hidden" id="scriptPanel" aria-label="Demo script">
+      <div class="help-panel-head">
+        <div>
+          <p class="eyebrow">Demo script</p>
+          <h3 id="scriptTitle"></h3>
+        </div>
+        <button class="secondary-btn banner-btn" id="closeScriptButton" type="button">Close</button>
+      </div>
+      <p class="notes-summary" id="scriptSummary"></p>
+      <ol class="script-list" id="scriptList"></ol>
+    </aside>
+    <div class="workspace">
+      <aside class="section-sidebar" aria-label="Page sections">
+        <p class="scene-label">Sections</p>
+        <nav class="section-nav" id="sectionNav">
+          <a class="section-link is-active" href="#section-home" data-section-link="section-home">Home</a>
+          <a class="section-link" href="#section-lanes" data-section-link="section-lanes">Lanes</a>
+          <a class="section-link" href="#section-compose" data-section-link="section-compose">Compose</a>
+          <a class="section-link" href="#section-review" data-section-link="section-review">Review</a>
+          <a class="section-link" href="#section-result" data-section-link="section-result">Result</a>
+          <a class="section-link" href="#section-compare" data-section-link="section-compare">Compare</a>
+          <a class="section-link" href="#section-checklist" data-section-link="section-checklist">Checklist</a>
+        </nav>
+      </aside>
+      <div class="workspace-main">
+    <header class="hero" id="section-home">
+      <div class="hero-copy">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>
+            <p class="brand-name">Consentext</p>
+            <p class="brand-subtitle">AI Gateway prototype</p>
+          </div>
+        </div>
+        <p class="eyebrow">Consentext internal prototype</p>
+        <h1>AI Gateway</h1>
+        <p class="lede">
+          A trust-and-routing system that lets a consumer choose how each request is handled,
+          how much protection they want, and whether outside AI is used at all.
+        </p>
+        <p class="hero-support">
+          Designed to help people understand sensitive health information with clearer boundaries,
+          calmer guidance, and visible choices before anything happens.
+        </p>
+        <div class="hero-actions">
+          <span class="hero-chip">Demo data only</span>
+          <span class="hero-chip">Sensitive record work can stay inside</span>
+          <a class="secondary-btn hero-link" href="walkthrough.html">Open walkthrough page</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <p class="panel-label">Core idea</p>
+        <p class="panel-text">
+          The lane changes the boundary, the review step, and the result behavior. Direct outside AI UI handoff
+          is not part of the product.
+        </p>
+        <div class="hero-metrics">
+          <div>
+            <span class="metric-value">4</span>
+            <span class="metric-label">lanes on board</span>
+          </div>
+          <div>
+            <span class="metric-value">1</span>
+            <span class="metric-label">path kept off board</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="section-lanes">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Gateway home</p>
+            <h2>Choose a lane</h2>
+          </div>
+          <p class="section-copy">
+            Each lane sets a different trust boundary before any AI work happens.
+          </p>
+        </div>
+        <div class="lane-grid" id="laneGrid"></div>
+        <aside class="offboard-card">
+          <p class="eyebrow">Off the board</p>
+          <h3>Direct outside AI UI handoff</h3>
+          <p>
+            Leaving Consentext to continue in ChatGPT, Claude, or another outside interface is not part of this
+            gateway. Once the user leaves, Consentext can no longer enforce routing, minimization, or audit after export.
+          </p>
+        </aside>
+      </section>
+
+      <section class="section composer-section" id="section-compose">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Task composer</p>
+            <h2>Run the same request across lanes</h2>
+          </div>
+          <div class="section-head-actions">
+            <p class="section-copy">
+              The prototype uses demo record data and repeatable tasks so the lane differences stay easy to compare.
+            </p>
+            <button class="secondary-btn" id="toggleComposerButton" type="button" aria-expanded="true" aria-controls="composerWrap">Minimize task lane</button>
+          </div>
+        </div>
+        <div class="section-rule">
+          <span>Use one repeatable demo request so the trust boundary changes are easy to compare.</span>
+        </div>
+
+        <div class="composer" id="composerWrap">
+          <div class="composer-card">
+            <label class="field">
+              <span>Demo task</span>
+              <select id="taskSelect"></select>
+            </label>
+            <div class="field hidden" id="providerField">
+              <span>Outside model connection</span>
+              <select id="providerSelect"></select>
+              <p class="field-hint" id="providerHint"></p>
+            </div>
+            <label class="field">
+              <span>Prompt</span>
+              <textarea id="promptInput" rows="4"></textarea>
+            </label>
+            <div class="patient-snapshot" id="patientSnapshot"></div>
+          </div>
+
+          <div class="composer-card">
+            <p class="field-label">Selected lane</p>
+            <div class="selected-lane" id="selectedLaneCard"></div>
+            <div class="recommendation-card" id="recommendationCard"></div>
+            <div class="composer-actions">
+              <button class="secondary-btn" id="useRecommendedButton" type="button">Use recommended lane</button>
+              <button class="primary-btn" id="reviewButton" type="button">Review boundary</button>
+              <button class="secondary-btn" id="compareButton" type="button">Compare all lanes</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section review-section" id="reviewSection" data-section-id="section-review" aria-live="polite">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Boundary review</p>
+            <h2>Confirm what happens before send</h2>
+          </div>
+          <p class="section-copy" id="reviewHeadline"></p>
+        </div>
+        <div class="section-rule">
+          <span>Consentext stays in the middle for every supported lane.</span>
+        </div>
+        <div class="review-grid">
+          <div class="review-card">
+            <p class="review-label">Processing mode</p>
+            <h3 id="modeTitle"></h3>
+            <p id="modeSummary"></p>
+          </div>
+          <div class="review-card">
+            <p class="review-label">What stays inside Consentext</p>
+            <ul id="insideList"></ul>
+          </div>
+          <div class="review-card">
+            <p class="review-label">What may leave</p>
+            <ul id="outsideList"></ul>
+          </div>
+          <div class="review-card">
+            <p class="review-label">Controls</p>
+            <ul id="controlsList"></ul>
+          </div>
+          <div class="review-card">
+            <p class="review-label">Connection mode</p>
+            <h3 id="providerModeTitle"></h3>
+            <p id="providerModeSummary"></p>
+          </div>
+          <div class="review-card" id="payloadPreviewCard">
+            <p class="review-label">Payload preview</p>
+            <h3 id="payloadPreviewTitle"></h3>
+            <p id="payloadPreviewSummary"></p>
+            <ul id="payloadPreviewList"></ul>
+          </div>
+        </div>
+        <div class="review-actions">
+          <div class="approval-chip" id="approvalChip"></div>
+          <label class="approval-toggle" id="approvalToggleWrap">
+            <input type="checkbox" id="approvalToggle">
+            <span id="approvalToggleText"></span>
+          </label>
+          <button class="secondary-btn" id="editButton" type="button">Back to composer</button>
+          <button class="primary-btn" id="sendButton" type="button">Run demo request</button>
+        </div>
+      </section>
+
+      <section class="section results-section" id="resultsSection" data-section-id="section-result" aria-live="polite">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Result</p>
+            <h2>Lane-specific output</h2>
+          </div>
+          <p class="section-copy">
+            Provenance and messaging shift with the lane. Deterministic stays structured. Private keeps sensitive work
+            inside. Private+ and Max Intelligence show different external boundaries.
+          </p>
+        </div>
+        <div class="section-rule">
+          <span>Every result returns with lane labeling, provenance, and a plain-English activity trail.</span>
+        </div>
+        <div class="results-layout">
+          <article class="result-card">
+            <div class="result-topline">
+              <div id="resultLaneBadge" class="lane-badge"></div>
+              <div id="resultBoundaryBadge" class="boundary-badge"></div>
+            </div>
+            <h3 id="resultTitle"></h3>
+            <p id="resultSummary"></p>
+            <div class="result-body" id="resultBody"></div>
+            <div class="provenance-row" id="provenanceRow"></div>
+            <div class="reference-card">
+              <p class="review-label">Record references</p>
+              <ul id="referenceList"></ul>
+            </div>
+          </article>
+
+          <aside class="audit-card">
+            <p class="eyebrow">Audit / activity</p>
+            <h3>Plain-English activity log</h3>
+            <div id="activityLog" class="activity-log"></div>
+          </aside>
+        </div>
+        <div class="review-summary-card" id="reviewSummaryCard">
+          <div class="summary-head">
+            <div>
+              <p class="eyebrow">Internal review summary</p>
+              <h3>Export / print briefing</h3>
+            </div>
+            <div class="summary-actions">
+              <button class="secondary-btn" id="copyLinkButton" type="button">Copy link</button>
+              <button class="secondary-btn" id="copySummaryButton" type="button">Copy summary</button>
+              <button class="secondary-btn" id="exportSummaryButton" type="button">Export summary</button>
+              <button class="secondary-btn print-btn" id="printSummaryButton" type="button">Print summary</button>
+              <button class="secondary-btn" id="resetSessionButton" type="button">Reset session</button>
+            </div>
+          </div>
+          <div class="summary-grid">
+            <div class="summary-block">
+              <p class="review-label">Request</p>
+              <div id="summaryRequest"></div>
+            </div>
+            <div class="summary-block">
+              <p class="review-label">Boundary</p>
+              <div id="summaryBoundary"></div>
+            </div>
+            <div class="summary-block">
+              <p class="review-label">Payload / connection</p>
+              <div id="summaryPayload"></div>
+            </div>
+            <div class="summary-block">
+              <p class="review-label">Key output points</p>
+              <div id="summaryOutput"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section compare-section" id="compareSection" data-section-id="section-compare">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Comparison</p>
+            <h2>See the same task across all lanes</h2>
+          </div>
+          <p class="section-copy">
+            Use this view to compare behavior, boundary, and output style without changing the task.
+          </p>
+        </div>
+        <div class="compare-legend">
+          <span>Boundary</span>
+          <span>Connection</span>
+          <span>Payload</span>
+          <span>Output</span>
+        </div>
+        <div class="compare-grid" id="compareGrid"></div>
+      </section>
+
+      <section class="section checklist-section" id="checklistSection" data-section-id="section-checklist">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Internal walkthrough</p>
+            <h2>Review checklist</h2>
+          </div>
+          <p class="section-copy">
+            Use this checklist during internal review to confirm that the prototype expresses the gateway clearly.
+          </p>
+        </div>
+        <div class="checklist-topline">
+          <div class="checklist-score" id="checklistScore"></div>
+          <button class="secondary-btn" id="completeChecklistButton" type="button">Mark current lane reviewed</button>
+        </div>
+        <div class="checklist-grid" id="checklistGrid"></div>
+      </section>
+    </main>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

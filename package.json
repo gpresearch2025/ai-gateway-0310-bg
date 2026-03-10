@@ -1,0 +1,16 @@
+{
+  "name": "consentext-ai-gateway-prototype",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Static local prototype for the Consentext AI Gateway",
+  "scripts": {
+    "dev": "node server.js",
+    "smoke": "node smoke-test.js",
+    "preflight": "node preflight-check.js",
+    "review-ready": "npm run preflight && npm run smoke && npm run e2e",
+    "e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}
