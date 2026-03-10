@@ -117,6 +117,8 @@ $voice = New-Object -ComObject SAPI.SpVoice;
 $token = $voice.GetVoices() | Where-Object {{ $_.GetDescription() -like '*Zira*' }} | Select-Object -First 1;
 if (-not $token) {{ $token = $voice.GetVoices() | Select-Object -First 1 }};
 $voice.Voice = $token;
+$voice.Rate = -1;
+$voice.Volume = 100;
 $stream = New-Object -ComObject SAPI.SpFileStream;
 $stream.Open('{escaped_audio_path}', 3, $false);
 $voice.AudioOutputStream = $stream;
@@ -234,6 +236,8 @@ def mux_audio() -> None:
             str(TEMP_VIDEO_PATH),
             "-i",
             str(AUDIO_PATH),
+            "-filter:a",
+            "loudnorm=I=-16:TP=-1.5:LRA=11",
             "-c:v",
             "copy",
             "-c:a",
