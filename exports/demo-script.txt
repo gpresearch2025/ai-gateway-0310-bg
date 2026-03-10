@@ -1,0 +1,17 @@
+Consentext AI Gateway: This is Consentext AI Gateway. It is the governed product layer for sensitive health AI requests. The trust boundary is chosen before any AI action happens.
+
+Four Governed Lanes: The main feature is the lane system. Each lane changes the boundary, the controls, and the return behavior.
+
+Guided Task Selection: The task composer keeps the comparison honest. The product can also recommend the right lane and explain why.
+
+Boundary Review: Before any request runs, the product stops at boundary review. It makes clear what stays inside, what may leave, and which controls are active.
+
+External Controls: For the external lanes, the site keeps approval, payload minimization, and provider connection mode visible, including managed and bring your own key options.
+
+Governed Return Flow: When the result comes back, it is lane labeled and returned through Consentext. Provenance, references, and the audit trail stay visible.
+
+Side-by-Side Comparison: The compare view makes the tradeoffs easy to scan. The same task is compared across all four lanes for boundary, connection, payload, and output.
+
+Presenter Workflow: The prototype also includes presenter tools, including demo scenes, review mode, summaries, share links, and persistent state.
+
+Why It Matters: The main takeaway is that this is not a generic AI front end. It is a governed product layer that keeps the trust boundary explicit and keeps Consentext in the middle.

@@ -8,7 +8,9 @@
     "smoke": "node smoke-test.js",
     "preflight": "node preflight-check.js",
     "review-ready": "npm run preflight && npm run smoke && npm run e2e",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "capture-demo-frames": "node capture-demo-frames.js",
+    "export-demo-video": "python export-demo-video.py"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2"

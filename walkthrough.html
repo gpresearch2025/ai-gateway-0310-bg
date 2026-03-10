@@ -20,6 +20,8 @@
           <button class="primary-btn hero-action-btn" id="startPresentationButton" type="button">Start presentation</button>
           <a class="primary-btn" href="index.html">Open live prototype</a>
           <a class="secondary-btn" href="#pitch-video">Jump to demo pitch video</a>
+          <a class="secondary-btn" href="walkthrough.html?mode=boss">Open boss mode</a>
+          <a class="secondary-btn" href="exports/ai-gateway-demo.mp4">Open exported MP4</a>
         </div>
       </div>
       <aside class="hero-panel">
@@ -42,6 +44,16 @@
           <p class="section-note">Built for your boss and internal team. This walkthrough explains the product story first, then shows the feature set that makes that story real.</p>
         </div>
         <div class="video-card pitch-card">
+          <div class="exported-video-card">
+            <div class="prototype-viewer-head exported-video-head">
+              <span class="visual-label">Exported presentation video</span>
+              <strong>MP4 walkthrough with narration</strong>
+            </div>
+            <video class="exported-video-player" controls preload="metadata" poster="exports/demo-frames/01-walkthrough.png">
+              <source src="exports/ai-gateway-demo.mp4" type="video/mp4">
+              Your browser does not support embedded MP4 playback.
+            </video>
+          </div>
           <div class="pitch-player">
             <div class="reel-shell" id="demoReel">
               <div class="reel-topline">
@@ -184,6 +196,8 @@
                 <button class="secondary-btn reel-btn" id="fullscreenPitchButton" type="button">Fullscreen</button>
                 <button class="secondary-btn reel-btn" id="toggleStepListButton" type="button" aria-expanded="false">Show steps</button>
                 <button class="secondary-btn reel-btn" id="togglePresentationModeButton" type="button" aria-pressed="true">Presentation mode on</button>
+                <button class="secondary-btn reel-btn" id="copyBossModeLinkButton" type="button">Copy boss-mode link</button>
+                <a class="secondary-btn reel-btn" href="exports/ai-gateway-demo.mp4">Download MP4</a>
               </div>
               <div class="support-drawer hidden" id="stepListDrawer">
                 <ol class="reel-step-list" id="reelStepList"></ol>

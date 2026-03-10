@@ -84,7 +84,9 @@ async function main() {
       "Presentation mode on",
       "Start presentation",
       "30-second presenter summary",
-      "Copy cue card"
+      "Copy cue card",
+      "Open boss mode",
+      "Copy boss-mode link"
     ];
 
     const criticalWalkthroughCss = [
@@ -96,7 +98,8 @@ async function main() {
       ".caption-title",
       ".support-drawer",
       ".presentation-support-section",
-      ".cue-card"
+      ".cue-card",
+      "body.is-boss-mode"
     ];
 
     const criticalWalkthroughJs = [
@@ -115,7 +118,9 @@ async function main() {
       "togglePresentationModeButton",
       "startPresentationButton",
       "startPresentationInlineButton",
-      "copyCueCardButton"
+      "copyCueCardButton",
+      "copyBossModeLinkButton",
+      "buildBossModeUrl"
     ];
 
     criticalHtml.forEach((item) => assertIncludes(html, item, "HTML content"));

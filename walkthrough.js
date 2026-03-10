@@ -11,6 +11,7 @@ const pauseReelButton = document.getElementById("pauseReelButton");
 const restartReelButton = document.getElementById("restartReelButton");
 const startPresentationButton = document.getElementById("startPresentationButton");
 const startPresentationInlineButton = document.getElementById("startPresentationInlineButton");
+const copyBossModeLinkButton = document.getElementById("copyBossModeLinkButton");
 const toggleVoiceButton = document.getElementById("toggleVoiceButton");
 const fullscreenPitchButton = document.getElementById("fullscreenPitchButton");
 const toggleStepListButton = document.getElementById("toggleStepListButton");
@@ -41,6 +42,7 @@ const prototypeFrameStatus = document.getElementById("prototypeFrameStatus");
 const stepListDrawer = document.getElementById("stepListDrawer");
 const transcriptDrawer = document.getElementById("transcriptDrawer");
 const pitchVideoSection = document.getElementById("pitch-video");
+const urlParams = new URLSearchParams(window.location.search);
 
 const laneAccents = {
   deterministic: "#b88a2b",
@@ -237,6 +239,7 @@ let playbackToken = 0;
 let stepListOpen = false;
 let transcriptOpen = false;
 let presentationMode = true;
+const bossMode = urlParams.get("mode") === "boss";
 
 function estimateStepDuration(step) {
   const words = step.narration.split(/\s+/).length;
@@ -253,8 +256,8 @@ function getPreferredVoice() {
   }
 
   const preferredPatterns = [
-    /Aria/i,
     /Jenny/i,
+    /Aria/i,
     /Guy/i,
     /Google US English/i,
     /Sonia/i,
@@ -295,6 +298,7 @@ function renderSupportDrawers() {
 function renderPresentationMode() {
   const activePresentationMode = presentationMode && reelPlaying;
   document.body.classList.toggle("is-presentation-mode", activePresentationMode);
+  document.body.classList.toggle("is-boss-mode", bossMode);
   togglePresentationModeButton.textContent = presentationMode ? "Presentation mode on" : "Presentation mode off";
   togglePresentationModeButton.setAttribute("aria-pressed", String(presentationMode));
 }
@@ -563,6 +567,12 @@ async function startPresentation() {
   await requestPitchFullscreen();
 }
 
+function buildBossModeUrl() {
+  const url = new URL(window.location.href);
+  url.searchParams.set("mode", "boss");
+  return url.toString();
+}
+
 playReelButton.addEventListener("click", () => {
   startReel();
 });
@@ -635,6 +645,21 @@ copyVoiceoverButton.addEventListener("click", async () => {
   }
 });
 
+copyBossModeLinkButton.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(buildBossModeUrl());
+    copyBossModeLinkButton.textContent = "Copied";
+    window.setTimeout(() => {
+      copyBossModeLinkButton.textContent = "Copy boss-mode link";
+    }, 1400);
+  } catch (_) {
+    copyBossModeLinkButton.textContent = "Copy failed";
+    window.setTimeout(() => {
+      copyBossModeLinkButton.textContent = "Copy boss-mode link";
+    }, 1400);
+  }
+});
+
 copyCueCardButton.addEventListener("click", async () => {
   try {
     await navigator.clipboard.writeText(cueCardText.textContent.trim());
@@ -674,6 +699,13 @@ document.addEventListener("visibilitychange", () => {
 renderPitchFeatures();
 renderSupportDrawers();
 loadVoices();
+
+if (bossMode) {
+  presentationMode = true;
+  stepListOpen = false;
+  transcriptOpen = false;
+  renderSupportDrawers();
+}
 
 if (window.speechSynthesis) {
   window.speechSynthesis.onvoiceschanged = loadVoices;
