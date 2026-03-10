@@ -71,25 +71,47 @@ async function main() {
     const criticalWalkthroughHtml = [
       "Consentext AI Gateway demo walkthrough",
       "Open live prototype",
-      "Recommended demo sequence",
-      "Fast click path in the prototype",
-      "What the prototype now demonstrates",
-      "Walkthrough reel",
-      "Voiceover"
+      "One clean story for your boss and team",
+      "Fastest live demo sequence",
+      "Autoplay product walkthrough with AI voiceover",
+      "Demo pitch video",
+      "AI voiceover transcript",
+      "Live prototype state",
+      "Fullscreen",
+      "Live caption",
+      "Show steps",
+      "Show transcript",
+      "Presentation mode on",
+      "Start presentation"
     ];
 
     const criticalWalkthroughCss = [
       ".walkthrough-hero",
       ".step-grid",
       ".feature-grid",
-      ".video-card"
+      ".video-card",
+      ".prototype-frame-shell",
+      ".caption-title",
+      ".support-drawer",
+      ".presentation-support-section"
     ];
 
     const criticalWalkthroughJs = [
       "reelSteps",
       "renderReel",
       "startReel",
-      "copyVoiceoverButton"
+      "copyVoiceoverButton",
+      "SpeechSynthesisUtterance",
+      "toggleVoiceButton",
+      "prototypeFrame",
+      "appViewUrl",
+      "fullscreenPitchButton",
+      "syncPrototypeView",
+      "toggleStepListButton",
+      "toggleTranscriptButton",
+      "togglePresentationModeButton",
+      "startPresentationButton",
+      "startPresentationInlineButton"
     ];
 
     criticalHtml.forEach((item) => assertIncludes(html, item, "HTML content"));

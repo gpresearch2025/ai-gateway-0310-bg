@@ -3,3 +3,5 @@ test-results/
 .chrome-profile/
 .edge-profile/
 .server.pid
+
+.vercel

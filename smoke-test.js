@@ -83,10 +83,19 @@ async function main() {
     const walkthroughSnippets = [
       "Consentext AI Gateway demo walkthrough",
       "Open live prototype",
-      "Recommended demo sequence",
-      "What the prototype now demonstrates",
-      "Walkthrough reel",
-      "Voiceover"
+      "One clean story for your boss and team",
+      "Autoplay product walkthrough with AI voiceover",
+      "What the website demonstrates",
+      "Demo pitch video",
+      "AI voiceover transcript",
+      "Live prototype state",
+      "Fastest live demo sequence",
+      "Fullscreen",
+      "Live caption",
+      "Show steps",
+      "Show transcript",
+      "Presentation mode on",
+      "Start presentation"
     ];
     const missingWalkthrough = walkthroughSnippets.filter((snippet) => !walkthroughHtml.includes(snippet));
     if (missingWalkthrough.length > 0) {
@@ -181,7 +190,23 @@ async function main() {
       "reelSteps",
       "renderReel",
       "startReel",
-      "copyVoiceoverButton"
+      "copyVoiceoverButton",
+      "SpeechSynthesisUtterance",
+      "toggleVoiceButton",
+      "voiceEnabled",
+      "prototypeFrame",
+      "appViewUrl",
+      "fullscreenPitchButton",
+      "syncPrototypeView",
+      "captionTitle",
+      "toggleStepListButton",
+      "toggleTranscriptButton",
+      "renderSupportDrawers",
+      "togglePresentationModeButton",
+      "renderPresentationMode",
+      "startPresentationButton",
+      "startPresentationInlineButton",
+      "startPresentation"
     ];
     const missingWalkthroughJs = requiredWalkthroughJs.filter((snippet) => !walkthroughJs.includes(snippet));
     if (missingWalkthroughJs.length > 0) {
