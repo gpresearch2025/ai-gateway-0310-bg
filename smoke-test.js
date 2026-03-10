@@ -100,7 +100,8 @@ async function main() {
       "Download MP4",
       "kind=\"subtitles\"",
       "On-screen subtitles",
-      "Chapters"
+      "Chapters",
+      "Open prototype after video"
     ];
     const missingWalkthrough = walkthroughSnippets.filter((snippet) => !walkthroughHtml.includes(snippet));
     if (missingWalkthrough.length > 0) {

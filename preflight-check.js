@@ -87,7 +87,8 @@ async function main() {
       "Download MP4",
       "kind=\"subtitles\"",
       "On-screen subtitles",
-      "Chapters"
+      "Chapters",
+      "Open prototype after video"
     ];
 
     const criticalWalkthroughCss = [
