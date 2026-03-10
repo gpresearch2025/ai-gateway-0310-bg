@@ -19,9 +19,8 @@
         <div class="hero-actions">
           <button class="primary-btn hero-action-btn" id="startPresentationButton" type="button">Start presentation</button>
           <a class="primary-btn" href="index.html">Open live prototype</a>
-          <a class="secondary-btn" href="#pitch-video">Jump to demo pitch video</a>
+          <a class="secondary-btn" href="#pitch-video">Jump to video</a>
           <a class="secondary-btn" href="walkthrough.html?mode=boss">Open boss mode</a>
-          <a class="secondary-btn" href="exports/ai-gateway-demo.mp4">Open exported MP4</a>
         </div>
       </div>
       <aside class="hero-panel">
@@ -38,173 +37,25 @@
       <section class="walkthrough-section pitch-section" id="pitch-video">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Demo pitch video</p>
-            <h2>Autoplay product walkthrough with AI voiceover</h2>
+            <p class="eyebrow">Walkthrough video</p>
+            <h2>MP4 presentation with narration</h2>
           </div>
-          <p class="section-note">Built for your boss and internal team. This walkthrough explains the product story first, then shows the feature set that makes that story real.</p>
+          <p class="section-note">Built for your boss and internal team. This version uses the exported MP4 as the primary presentation surface.</p>
         </div>
         <div class="video-card pitch-card">
-          <div class="exported-video-card">
-            <div class="prototype-viewer-head exported-video-head">
-              <span class="visual-label">Exported presentation video</span>
-              <strong>MP4 walkthrough with narration</strong>
-            </div>
-            <video class="exported-video-player" controls preload="metadata" poster="exports/demo-frames/01-walkthrough.png">
+          <div class="video-player-shell">
+            <video id="walkthroughVideo" class="exported-video-player" controls preload="metadata" poster="exports/demo-frames/01-walkthrough.png">
               <source src="exports/ai-gateway-demo.mp4" type="video/mp4">
               Your browser does not support embedded MP4 playback.
             </video>
-          </div>
-          <div class="pitch-player">
-            <div class="reel-shell" id="demoReel">
-              <div class="reel-topline">
-                <span class="reel-badge">Demo pitch video</span>
-                <div class="reel-status-group">
-                  <span class="reel-status" id="reelStatus">Playing</span>
-                  <span class="voice-status" id="voiceStatus">AI voiceover starting</span>
-                </div>
-              </div>
-              <div class="player-stage">
-                <div class="player-screen">
-                  <div class="prototype-viewer">
-                    <div class="prototype-viewer-head">
-                      <span class="visual-label">Live prototype state</span>
-                      <strong id="prototypeViewLabel">Private review state</strong>
-                    </div>
-                    <div class="prototype-frame-shell" id="prototypeFrameShell">
-                      <div class="prototype-frame-status" id="prototypeFrameStatus">Loading next feature view</div>
-                      <iframe
-                        id="prototypeFrame"
-                        class="prototype-frame"
-                        title="Live prototype state"
-                        src="index.html?lane=private&task=a1c&step=review&scene=private-anchor">
-                      </iframe>
-                    </div>
-                  </div>
-                  <div class="lane-board" id="laneBoard">
-                    <article class="lane-board-card" data-lane-card="deterministic">
-                      <span class="lane-board-kicker">Deterministic</span>
-                      <strong>Fact-first internal logic</strong>
-                      <p>No LLM, no outbound payload, stable structured output.</p>
-                    </article>
-                    <article class="lane-board-card" data-lane-card="private">
-                      <span class="lane-board-kicker">Private</span>
-                      <strong>Protected internal AI</strong>
-                      <p>Natural-language help with sensitive record interpretation kept inside.</p>
-                    </article>
-                    <article class="lane-board-card" data-lane-card="private-plus">
-                      <span class="lane-board-kicker">Private Plus</span>
-                      <strong>Reduced external payload</strong>
-                      <p>Consentext minimizes the payload before any outside assist step.</p>
-                    </article>
-                    <article class="lane-board-card" data-lane-card="max-intelligence">
-                      <span class="lane-board-kicker">Max Intelligence</span>
-                      <strong>Broadest supported AI help</strong>
-                      <p>Highest capability with the weakest supported protection boundary.</p>
-                    </article>
-                  </div>
-                  <div class="visual-ribbon" id="visualRibbon">
-                    <div class="visual-card">
-                      <span class="visual-label">Lane system</span>
-                      <strong>4 governed choices</strong>
-                    </div>
-                    <div class="visual-card">
-                      <span class="visual-label">Boundary</span>
-                      <strong>Review before send</strong>
-                    </div>
-                    <div class="visual-card">
-                      <span class="visual-label">Result</span>
-                      <strong>Provenance and audit</strong>
-                    </div>
-                  </div>
-                  <div class="mock-panel-grid" id="mockPanelGrid">
-                    <article class="mock-panel">
-                      <p class="mock-label">Lane selection</p>
-                      <div class="mock-panel-body" id="mockLanePanel"></div>
-                    </article>
-                    <article class="mock-panel">
-                      <p class="mock-label">Boundary review</p>
-                      <div class="mock-panel-body" id="mockBoundaryPanel"></div>
-                    </article>
-                    <article class="mock-panel">
-                      <p class="mock-label">Result and audit</p>
-                      <div class="mock-panel-body" id="mockResultPanel"></div>
-                    </article>
-                  </div>
-                  <div class="reel-stage">
-                    <p class="eyebrow" id="reelStepEyebrow"></p>
-                    <h3 id="reelStepTitle"></h3>
-                    <p id="reelStepBody"></p>
-                    <div class="reel-tags" id="reelTags"></div>
-                  </div>
-                  <div class="result-filmstrip" id="resultFilmstrip">
-                    <div class="film-card film-card-primary">
-                      <span class="film-label">Current outcome</span>
-                      <strong id="filmOutcomeTitle">Governed product state</strong>
-                      <p id="filmOutcomeBody">The pitch keeps the current feature outcome visible as the narration moves.</p>
-                    </div>
-                    <div class="film-card">
-                      <span class="film-label">Boundary cue</span>
-                      <strong id="filmBoundaryTitle">Trust boundary</strong>
-                      <p id="filmBoundaryBody">The active lane and boundary shift together.</p>
-                    </div>
-                  </div>
-                  <div class="caption-bar">
-                    <div class="caption-head">
-                      <p class="eyebrow">Live caption</p>
-                      <span class="caption-step" id="captionStep">Step 1 of 11</span>
-                    </div>
-                    <p class="caption-title" id="captionTitle"></p>
-                    <p class="narration-line" id="narrationLine"></p>
-                  </div>
-                </div>
-                <aside class="player-sidebar">
-                  <div class="sidebar-card sidebar-card-summary">
-                    <p class="eyebrow">Executive framing</p>
-                    <h3>The product stays between the user and any AI boundary</h3>
-                    <p>
-                      Consentext decides how the work should run, makes the boundary explicit, and keeps approval, payload handling, provenance, and return flow inside the product.
-                    </p>
-                  </div>
-                  <div class="sidebar-card sidebar-card-metrics">
-                    <p class="eyebrow">Why this is different</p>
-                    <div class="metric-stack">
-                      <div class="metric-pill">
-                        <strong>4</strong>
-                        <span>governed trust lanes</span>
-                      </div>
-                      <div class="metric-pill">
-                        <strong>1</strong>
-                        <span>product-controlled gateway</span>
-                      </div>
-                      <div class="metric-pill">
-                        <strong>0</strong>
-                        <span>direct outside AI UI handoffs</span>
-                      </div>
-                    </div>
-                  </div>
-                </aside>
-              </div>
-              <div class="reel-progress-track">
-                <span class="reel-progress-bar" id="reelProgressBar"></span>
-              </div>
-              <div class="reel-actions">
-                <button class="primary-btn reel-btn" id="startPresentationInlineButton" type="button">Start presentation</button>
-                <button class="secondary-btn reel-btn" id="playReelButton" type="button">Play</button>
-                <button class="secondary-btn reel-btn" id="pauseReelButton" type="button">Pause</button>
-                <button class="secondary-btn reel-btn" id="restartReelButton" type="button">Restart</button>
-                <button class="secondary-btn reel-btn" id="toggleVoiceButton" type="button">Mute voiceover</button>
-                <button class="secondary-btn reel-btn" id="fullscreenPitchButton" type="button">Fullscreen</button>
-                <button class="secondary-btn reel-btn" id="toggleStepListButton" type="button" aria-expanded="false">Show steps</button>
-                <button class="secondary-btn reel-btn" id="togglePresentationModeButton" type="button" aria-pressed="true">Presentation mode on</button>
-                <button class="secondary-btn reel-btn" id="copyBossModeLinkButton" type="button">Copy boss-mode link</button>
-                <a class="secondary-btn reel-btn" href="exports/ai-gateway-demo.mp4">Download MP4</a>
-              </div>
-              <div class="support-drawer hidden" id="stepListDrawer">
-                <ol class="reel-step-list" id="reelStepList"></ol>
-              </div>
+            <div class="video-action-row">
+              <button class="primary-btn reel-btn" id="startPresentationInlineButton" type="button">Play video</button>
+              <button class="secondary-btn reel-btn" id="fullscreenVideoButton" type="button">Fullscreen</button>
+              <button class="secondary-btn reel-btn" id="togglePresentationModeButton" type="button" aria-pressed="true">Presentation mode on</button>
+              <button class="secondary-btn reel-btn" id="copyBossModeLinkButton" type="button">Copy boss-mode link</button>
+              <a class="secondary-btn reel-btn" href="exports/ai-gateway-demo.mp4">Download MP4</a>
             </div>
           </div>
-          <div class="pitch-feature-strip" id="pitchFeatureStrip"></div>
         </div>
       </section>
 

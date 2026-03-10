@@ -84,22 +84,19 @@ async function main() {
       "Consentext AI Gateway demo walkthrough",
       "Open live prototype",
       "One clean story for your boss and team",
-      "Autoplay product walkthrough with AI voiceover",
+      "MP4 presentation with narration",
       "What the website demonstrates",
-      "Demo pitch video",
       "AI voiceover transcript",
-      "Live prototype state",
       "Fastest live demo sequence",
       "Fullscreen",
-      "Live caption",
-      "Show steps",
       "Show transcript",
       "Presentation mode on",
       "Start presentation",
       "30-second presenter summary",
       "Copy cue card",
       "Open boss mode",
-      "Copy boss-mode link"
+      "Copy boss-mode link",
+      "Download MP4"
     ];
     const missingWalkthrough = walkthroughSnippets.filter((snippet) => !walkthroughHtml.includes(snippet));
     if (missingWalkthrough.length > 0) {
@@ -191,21 +188,9 @@ async function main() {
     }
 
     const requiredWalkthroughJs = [
-      "reelSteps",
-      "renderReel",
-      "startReel",
+      "walkthroughVideo",
       "copyVoiceoverButton",
-      "SpeechSynthesisUtterance",
-      "toggleVoiceButton",
-      "voiceEnabled",
-      "prototypeFrame",
-      "appViewUrl",
-      "fullscreenPitchButton",
-      "syncPrototypeView",
-      "captionTitle",
-      "toggleStepListButton",
       "toggleTranscriptButton",
-      "renderSupportDrawers",
       "togglePresentationModeButton",
       "renderPresentationMode",
       "startPresentationButton",
@@ -215,7 +200,9 @@ async function main() {
       "cueCardText",
       'urlParams.get("mode") === "boss"',
       "copyBossModeLinkButton",
-      "buildBossModeUrl"
+      "buildBossModeUrl",
+      "fullscreenVideoButton",
+      "requestVideoFullscreen"
     ];
     const missingWalkthroughJs = requiredWalkthroughJs.filter((snippet) => !walkthroughJs.includes(snippet));
     if (missingWalkthroughJs.length > 0) {

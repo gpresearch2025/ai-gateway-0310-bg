@@ -73,20 +73,17 @@ async function main() {
       "Open live prototype",
       "One clean story for your boss and team",
       "Fastest live demo sequence",
-      "Autoplay product walkthrough with AI voiceover",
-      "Demo pitch video",
+      "MP4 presentation with narration",
       "AI voiceover transcript",
-      "Live prototype state",
       "Fullscreen",
-      "Live caption",
-      "Show steps",
       "Show transcript",
       "Presentation mode on",
       "Start presentation",
       "30-second presenter summary",
       "Copy cue card",
       "Open boss mode",
-      "Copy boss-mode link"
+      "Copy boss-mode link",
+      "Download MP4"
     ];
 
     const criticalWalkthroughCss = [
@@ -103,24 +100,16 @@ async function main() {
     ];
 
     const criticalWalkthroughJs = [
-      "reelSteps",
-      "renderReel",
-      "startReel",
+      "walkthroughVideo",
       "copyVoiceoverButton",
-      "SpeechSynthesisUtterance",
-      "toggleVoiceButton",
-      "prototypeFrame",
-      "appViewUrl",
-      "fullscreenPitchButton",
-      "syncPrototypeView",
-      "toggleStepListButton",
       "toggleTranscriptButton",
       "togglePresentationModeButton",
       "startPresentationButton",
       "startPresentationInlineButton",
       "copyCueCardButton",
       "copyBossModeLinkButton",
-      "buildBossModeUrl"
+      "buildBossModeUrl",
+      "fullscreenVideoButton"
     ];
 
     criticalHtml.forEach((item) => assertIncludes(html, item, "HTML content"));
