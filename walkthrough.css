@@ -346,6 +346,17 @@ body.is-presentation-mode .presentation-support-section {
   flex-wrap: wrap;
 }
 
+.cue-card {
+  display: grid;
+  gap: 10px;
+}
+
+.cue-card p {
+  color: var(--ink);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
 .video-fallback {
   display: grid;
   gap: 18px;

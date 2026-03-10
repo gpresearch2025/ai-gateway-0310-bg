@@ -20,6 +20,8 @@ const captionTitle = document.getElementById("captionTitle");
 const captionStep = document.getElementById("captionStep");
 const voiceoverList = document.getElementById("voiceoverList");
 const copyVoiceoverButton = document.getElementById("copyVoiceoverButton");
+const copyCueCardButton = document.getElementById("copyCueCardButton");
+const cueCardText = document.getElementById("cueCardText");
 const toggleTranscriptButton = document.getElementById("toggleTranscriptButton");
 const pitchFeatureStrip = document.getElementById("pitchFeatureStrip");
 const mockLanePanel = document.getElementById("mockLanePanel");
@@ -629,6 +631,21 @@ copyVoiceoverButton.addEventListener("click", async () => {
     copyVoiceoverButton.textContent = "Copy failed";
     window.setTimeout(() => {
       copyVoiceoverButton.textContent = "Copy script";
+    }, 1400);
+  }
+});
+
+copyCueCardButton.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(cueCardText.textContent.trim());
+    copyCueCardButton.textContent = "Copied";
+    window.setTimeout(() => {
+      copyCueCardButton.textContent = "Copy cue card";
+    }, 1400);
+  } catch (_) {
+    copyCueCardButton.textContent = "Copy failed";
+    window.setTimeout(() => {
+      copyCueCardButton.textContent = "Copy cue card";
     }, 1400);
   }
 });

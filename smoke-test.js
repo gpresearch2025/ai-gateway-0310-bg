@@ -95,7 +95,9 @@ async function main() {
       "Show steps",
       "Show transcript",
       "Presentation mode on",
-      "Start presentation"
+      "Start presentation",
+      "30-second presenter summary",
+      "Copy cue card"
     ];
     const missingWalkthrough = walkthroughSnippets.filter((snippet) => !walkthroughHtml.includes(snippet));
     if (missingWalkthrough.length > 0) {
@@ -206,7 +208,9 @@ async function main() {
       "renderPresentationMode",
       "startPresentationButton",
       "startPresentationInlineButton",
-      "startPresentation"
+      "startPresentation",
+      "copyCueCardButton",
+      "cueCardText"
     ];
     const missingWalkthroughJs = requiredWalkthroughJs.filter((snippet) => !walkthroughJs.includes(snippet));
     if (missingWalkthroughJs.length > 0) {

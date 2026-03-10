@@ -82,7 +82,9 @@ async function main() {
       "Show steps",
       "Show transcript",
       "Presentation mode on",
-      "Start presentation"
+      "Start presentation",
+      "30-second presenter summary",
+      "Copy cue card"
     ];
 
     const criticalWalkthroughCss = [
@@ -93,7 +95,8 @@ async function main() {
       ".prototype-frame-shell",
       ".caption-title",
       ".support-drawer",
-      ".presentation-support-section"
+      ".presentation-support-section",
+      ".cue-card"
     ];
 
     const criticalWalkthroughJs = [
@@ -111,7 +114,8 @@ async function main() {
       "toggleTranscriptButton",
       "togglePresentationModeButton",
       "startPresentationButton",
-      "startPresentationInlineButton"
+      "startPresentationInlineButton",
+      "copyCueCardButton"
     ];
 
     criticalHtml.forEach((item) => assertIncludes(html, item, "HTML content"));
