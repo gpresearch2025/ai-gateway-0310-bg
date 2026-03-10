@@ -383,8 +383,8 @@ body.is-boss-mode .presentation-support-section {
 
 .video-captions-text {
   color: var(--navy);
-  font-size: 1.06rem;
-  line-height: 1.7;
+  font-size: 0.76rem;
+  line-height: 1.35;
 }
 
 .pitch-player {
