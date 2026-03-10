@@ -18,6 +18,7 @@ FRAME_DIR = EXPORT_DIR / "demo-frames"
 SCRIPT_PATH = EXPORT_DIR / "demo-script.txt"
 AUDIO_PATH = EXPORT_DIR / "demo-narration.wav"
 VIDEO_PATH = EXPORT_DIR / "ai-gateway-demo.mp4"
+VTT_PATH = EXPORT_DIR / "ai-gateway-demo.vtt"
 TEMP_VIDEO_PATH = EXPORT_DIR / "ai-gateway-demo-silent.mp4"
 
 WIDTH = 1280
@@ -106,6 +107,31 @@ def write_script() -> str:
     EXPORT_DIR.mkdir(exist_ok=True)
     SCRIPT_PATH.write_text(script, encoding="utf-8")
     return script
+
+
+def format_vtt_timestamp(seconds: float) -> str:
+    total_millis = int(round(seconds * 1000))
+    hours = total_millis // 3_600_000
+    remainder = total_millis % 3_600_000
+    minutes = remainder // 60_000
+    remainder %= 60_000
+    secs = remainder // 1000
+    millis = remainder % 1000
+    return f"{hours:02}:{minutes:02}:{secs:02}.{millis:03}"
+
+
+def write_vtt(durations: list[float]) -> None:
+    lines = ["WEBVTT", ""]
+    elapsed = 0.0
+    for index, step in enumerate(STEPS, start=1):
+        start = elapsed
+        end = elapsed + durations[index - 1]
+        lines.append(str(index))
+        lines.append(f"{format_vtt_timestamp(start)} --> {format_vtt_timestamp(end)}")
+        lines.append(f"{step['title']}: {step['narration']}")
+        lines.append("")
+        elapsed = end
+    VTT_PATH.write_text("\n".join(lines), encoding="utf-8")
 
 
 def synthesize_audio(script: str) -> bool:
@@ -261,12 +287,14 @@ def main() -> None:
     script = write_script()
     synthesize_audio(script)
     durations = estimate_durations(get_audio_duration())
+    write_vtt(durations)
     write_video(durations)
     mux_audio()
     print(f"Exported demo video: {VIDEO_PATH}")
     if AUDIO_PATH.exists():
         print(f"Generated narration: {AUDIO_PATH}")
     print(f"Saved script: {SCRIPT_PATH}")
+    print(f"Saved captions: {VTT_PATH}")
 
 
 if __name__ == "__main__":

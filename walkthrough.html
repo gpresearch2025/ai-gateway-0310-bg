@@ -46,8 +46,13 @@
           <div class="video-player-shell">
             <video id="walkthroughVideo" class="exported-video-player" controls preload="metadata" poster="exports/demo-frames/01-walkthrough.png">
               <source src="exports/ai-gateway-demo.mp4" type="video/mp4">
+              <track src="exports/ai-gateway-demo.vtt" kind="subtitles" srclang="en" label="English" default>
               Your browser does not support embedded MP4 playback.
             </video>
+            <div class="video-captions" id="videoCaptions" aria-live="polite">
+              <p class="video-captions-label">On-screen subtitles</p>
+              <p class="video-captions-text" id="videoCaptionsText">Subtitles will appear here during playback.</p>
+            </div>
             <div class="video-action-row">
               <button class="primary-btn reel-btn" id="startPresentationInlineButton" type="button">Play video</button>
               <button class="secondary-btn reel-btn" id="fullscreenVideoButton" type="button">Fullscreen</button>

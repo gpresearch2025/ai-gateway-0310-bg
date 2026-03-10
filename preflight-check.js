@@ -17,13 +17,14 @@ async function main() {
   });
 
   try {
-    const [html, appJs, css, walkthroughHtml, walkthroughCss, walkthroughJs] = await Promise.all([
+    const [html, appJs, css, walkthroughHtml, walkthroughCss, walkthroughJs, walkthroughVtt] = await Promise.all([
       fetch(baseUrl).then((res) => res.text()),
       fetch(`${baseUrl}/app.js`).then((res) => res.text()),
       fetch(`${baseUrl}/styles.css`).then((res) => res.text()),
       fetch(`${baseUrl}/walkthrough.html`).then((res) => res.text()),
       fetch(`${baseUrl}/walkthrough.css`).then((res) => res.text()),
-      fetch(`${baseUrl}/walkthrough.js`).then((res) => res.text())
+      fetch(`${baseUrl}/walkthrough.js`).then((res) => res.text()),
+      fetch(`${baseUrl}/exports/ai-gateway-demo.vtt`).then((res) => res.text())
     ]);
 
     const criticalHtml = [
@@ -83,7 +84,9 @@ async function main() {
       "Copy cue card",
       "Open boss mode",
       "Copy boss-mode link",
-      "Download MP4"
+      "Download MP4",
+      "kind=\"subtitles\"",
+      "On-screen subtitles"
     ];
 
     const criticalWalkthroughCss = [
@@ -96,7 +99,8 @@ async function main() {
       ".support-drawer",
       ".presentation-support-section",
       ".cue-card",
-      "body.is-boss-mode"
+      "body.is-boss-mode",
+      ".video-captions"
     ];
 
     const criticalWalkthroughJs = [
@@ -109,7 +113,10 @@ async function main() {
       "copyCueCardButton",
       "copyBossModeLinkButton",
       "buildBossModeUrl",
-      "fullscreenVideoButton"
+      "fullscreenVideoButton",
+      "loadTranscript",
+      "loadSubtitles",
+      "updateVisibleCaption"
     ];
 
     criticalHtml.forEach((item) => assertIncludes(html, item, "HTML content"));
@@ -118,6 +125,7 @@ async function main() {
     criticalWalkthroughHtml.forEach((item) => assertIncludes(walkthroughHtml, item, "walkthrough HTML content"));
     criticalWalkthroughCss.forEach((item) => assertIncludes(walkthroughCss, item, "walkthrough CSS rule"));
     criticalWalkthroughJs.forEach((item) => assertIncludes(walkthroughJs, item, "walkthrough JS hook"));
+    assertIncludes(walkthroughVtt, "WEBVTT", "walkthrough captions");
 
     console.log("Preflight check passed");
   } finally {

@@ -323,6 +323,28 @@ body.is-boss-mode .presentation-support-section {
   gap: 14px;
 }
 
+.video-captions {
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(18, 52, 72, 0.06);
+  border: 1px solid rgba(18, 52, 72, 0.08);
+}
+
+.video-captions-label {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.video-captions-text {
+  color: var(--navy);
+  font-size: 1.06rem;
+  line-height: 1.7;
+}
+
 .pitch-player {
   padding: 18px;
   border-radius: 26px;

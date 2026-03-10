@@ -34,6 +34,7 @@ async function main() {
     const html = await response.text();
     const walkthroughHtml = await fetch(`${baseUrl}/walkthrough.html`).then((res) => res.text());
     const walkthroughJs = await fetch(`${baseUrl}/walkthrough.js`).then((res) => res.text());
+    const walkthroughVtt = await fetch(`${baseUrl}/exports/ai-gateway-demo.vtt`).then((res) => res.text());
 
     const requiredSnippets = [
       "Consentext AI Gateway",
@@ -96,7 +97,9 @@ async function main() {
       "Copy cue card",
       "Open boss mode",
       "Copy boss-mode link",
-      "Download MP4"
+      "Download MP4",
+      "kind=\"subtitles\"",
+      "On-screen subtitles"
     ];
     const missingWalkthrough = walkthroughSnippets.filter((snippet) => !walkthroughHtml.includes(snippet));
     if (missingWalkthrough.length > 0) {
@@ -202,11 +205,20 @@ async function main() {
       "copyBossModeLinkButton",
       "buildBossModeUrl",
       "fullscreenVideoButton",
-      "requestVideoFullscreen"
+      "requestVideoFullscreen",
+      "loadTranscript",
+      "demo-script.txt",
+      "loadSubtitles",
+      "videoCaptionsText",
+      "updateVisibleCaption"
     ];
     const missingWalkthroughJs = requiredWalkthroughJs.filter((snippet) => !walkthroughJs.includes(snippet));
     if (missingWalkthroughJs.length > 0) {
       throw new Error(`Missing walkthrough video hooks: ${missingWalkthroughJs.join(", ")}`);
+    }
+
+    if (!walkthroughVtt.includes("WEBVTT")) {
+      throw new Error("Missing VTT captions content");
     }
 
     console.log("Smoke test passed");
