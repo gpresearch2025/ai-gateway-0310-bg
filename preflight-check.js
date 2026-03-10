@@ -86,7 +86,8 @@ async function main() {
       "Copy boss-mode link",
       "Download MP4",
       "kind=\"subtitles\"",
-      "On-screen subtitles"
+      "On-screen subtitles",
+      "Chapters"
     ];
 
     const criticalWalkthroughCss = [
@@ -100,7 +101,8 @@ async function main() {
       ".presentation-support-section",
       ".cue-card",
       "body.is-boss-mode",
-      ".video-captions"
+      ".video-captions",
+      ".chapter-list"
     ];
 
     const criticalWalkthroughJs = [
@@ -116,7 +118,9 @@ async function main() {
       "fullscreenVideoButton",
       "loadTranscript",
       "loadSubtitles",
-      "updateVisibleCaption"
+      "updateVisibleCaption",
+      "renderChapters",
+      "updateActiveChapter"
     ];
 
     criticalHtml.forEach((item) => assertIncludes(html, item, "HTML content"));

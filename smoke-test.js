@@ -99,7 +99,8 @@ async function main() {
       "Copy boss-mode link",
       "Download MP4",
       "kind=\"subtitles\"",
-      "On-screen subtitles"
+      "On-screen subtitles",
+      "Chapters"
     ];
     const missingWalkthrough = walkthroughSnippets.filter((snippet) => !walkthroughHtml.includes(snippet));
     if (missingWalkthrough.length > 0) {
@@ -210,7 +211,10 @@ async function main() {
       "demo-script.txt",
       "loadSubtitles",
       "videoCaptionsText",
-      "updateVisibleCaption"
+      "updateVisibleCaption",
+      "chapterList",
+      "renderChapters",
+      "updateActiveChapter"
     ];
     const missingWalkthroughJs = requiredWalkthroughJs.filter((snippet) => !walkthroughJs.includes(snippet));
     if (missingWalkthroughJs.length > 0) {

@@ -12,6 +12,7 @@ const voiceoverList = document.getElementById("voiceoverList");
 const walkthroughVideo = document.getElementById("walkthroughVideo");
 const pitchVideoSection = document.getElementById("pitch-video");
 const videoCaptionsText = document.getElementById("videoCaptionsText");
+const chapterList = document.getElementById("chapterList");
 
 const urlParams = new URLSearchParams(window.location.search);
 const bossMode = urlParams.get("mode") === "boss";
@@ -124,6 +125,32 @@ function parseVtt(text) {
     });
 }
 
+function formatChapterTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = Math.floor(seconds % 60);
+  return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+}
+
+function renderChapters() {
+  chapterList.innerHTML = subtitleCues.map((cue, index) => `
+    <button class="chapter-button" type="button" data-chapter-index="${index}" data-start="${cue.start}">
+      <span>${cue.text.split(":")[0]}</span>
+      <span class="chapter-time">${formatChapterTime(cue.start)}</span>
+    </button>
+  `).join("");
+}
+
+function updateActiveChapter() {
+  const currentTime = walkthroughVideo.currentTime;
+  const buttons = Array.from(document.querySelectorAll(".chapter-button"));
+  buttons.forEach((button) => {
+    const start = Number(button.getAttribute("data-start"));
+    const next = button.nextElementSibling ? Number(button.nextElementSibling.getAttribute("data-start")) : Number.POSITIVE_INFINITY;
+    const active = currentTime >= start && currentTime < next;
+    button.classList.toggle("is-active", active);
+  });
+}
+
 async function loadSubtitles() {
   try {
     const response = await fetch("exports/ai-gateway-demo.vtt", { cache: "no-store" });
@@ -132,9 +159,11 @@ async function loadSubtitles() {
     }
 
     subtitleCues = parseVtt(await response.text());
+    renderChapters();
   } catch (_) {
     subtitleCues = [];
     videoCaptionsText.textContent = "Subtitles unavailable.";
+    chapterList.innerHTML = "";
   }
 }
 
@@ -142,6 +171,7 @@ function updateVisibleCaption() {
   const currentTime = walkthroughVideo.currentTime;
   const cue = subtitleCues.find((item) => currentTime >= item.start && currentTime <= item.end);
   videoCaptionsText.textContent = cue ? cue.text : "Subtitles will appear here during playback.";
+  updateActiveChapter();
 }
 
 startPresentationButton.addEventListener("click", () => {
@@ -193,6 +223,21 @@ copyVoiceoverButton.addEventListener("click", () => {
 toggleTranscriptButton.addEventListener("click", () => {
   transcriptOpen = !transcriptOpen;
   renderTranscript();
+});
+
+chapterList.addEventListener("click", async (event) => {
+  const target = event.target.closest(".chapter-button");
+  if (!target) {
+    return;
+  }
+
+  walkthroughVideo.currentTime = Number(target.getAttribute("data-start"));
+  updateVisibleCaption();
+  try {
+    await walkthroughVideo.play();
+  } catch (_) {
+    // Ignore playback restrictions.
+  }
 });
 
 walkthroughVideo.addEventListener("timeupdate", () => {
