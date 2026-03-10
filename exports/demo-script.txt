@@ -15,3 +15,5 @@ Side-by-Side Comparison: The compare view makes the tradeoffs easy to scan. The 
 Presenter Workflow: The prototype also includes presenter tools, including demo scenes, review mode, summaries, share links, and persistent state.
 
 Why It Matters: The main takeaway is that this is not a generic AI front end. It is a governed product layer that keeps the trust boundary explicit and keeps Consentext in the middle.
+
+Consentext AI Gateway: That is the Consentext AI Gateway walkthrough. The product value is governed routing, visible boundaries, and Consentext staying in the middle.

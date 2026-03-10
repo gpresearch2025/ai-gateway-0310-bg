@@ -80,6 +80,12 @@ STEPS = [
         "image": "09-close.png",
         "narration": "The main takeaway is that this is not a generic AI front end. It is a governed product layer that keeps the trust boundary explicit and keeps Consentext in the middle.",
     },
+    {
+        "title": "Consentext AI Gateway",
+        "subtitle": "Internal walkthrough for boss and team review. March 10, 2026.",
+        "image": None,
+        "narration": "That is the Consentext AI Gateway walkthrough. The product value is governed routing, visible boundaries, and Consentext staying in the middle.",
+    },
 ]
 
 
@@ -194,9 +200,22 @@ def compose_frame(step: dict, index: int, total: int) -> Image.Image:
     draw.rounded_rectangle((34, 30, WIDTH - 34, HEIGHT - 30), radius=34, fill="#152633")
     draw.rounded_rectangle((54, 150, WIDTH - 54, HEIGHT - 84), radius=26, fill="#0c141b")
 
-    image_path = FRAME_DIR / step["image"]
-    screenshot = fit_image(Image.open(image_path), WIDTH - 128, 430)
-    canvas.paste(screenshot, (64, 164))
+    if step["image"]:
+        image_path = FRAME_DIR / step["image"]
+        screenshot = fit_image(Image.open(image_path), WIDTH - 128, 430)
+        canvas.paste(screenshot, (64, 164))
+    else:
+        gradient = Image.new("RGB", (WIDTH - 128, 430), "#102431")
+        gradient_draw = ImageDraw.Draw(gradient)
+        gradient_draw.rounded_rectangle((0, 0, gradient.width, gradient.height), radius=28, fill="#102431")
+        gradient_draw.ellipse((-80, -40, 220, 220), fill="#1e6b66")
+        gradient_draw.ellipse((gradient.width - 260, 120, gradient.width + 40, 420), fill="#b88a2b")
+        gradient_draw.text((60, 72), "CONSENTEXT", font=KICKER_FONT, fill="#cfe0ea")
+        gradient_draw.text((60, 118), "AI Gateway", font=load_font(54, bold=True), fill="white")
+        gradient_draw.text((60, 194), "Governed routing for sensitive health AI", font=load_font(28), fill="#d8e4eb")
+        gradient_draw.text((60, 256), "Built for internal review and product storytelling", font=load_font(24), fill="#d8e4eb")
+        gradient_draw.text((60, 330), "March 10, 2026", font=BODY_FONT, fill="#cfe0ea")
+        canvas.paste(gradient, (64, 164))
 
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
     overlay_draw = ImageDraw.Draw(overlay)
@@ -280,7 +299,7 @@ def mux_audio() -> None:
 
 
 def main() -> None:
-    missing = [step["image"] for step in STEPS if not (FRAME_DIR / step["image"]).exists()]
+    missing = [step["image"] for step in STEPS if step["image"] and not (FRAME_DIR / step["image"]).exists()]
     if missing:
         raise SystemExit(f"Missing captured frames: {', '.join(missing)}")
 
